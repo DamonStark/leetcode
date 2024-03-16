@@ -1,21 +1,20 @@
 class Solution {
     func combine(_ n: Int, _ k: Int) -> [[Int]] {
         var ans:[[Int]] = []
-
-        func backtracking(_ start:Int, _ arr:[Int]) {
+        var arr:[Int] = []
+        func backtracking(_ start:Int) {
             if arr.count == k {
                 ans.append(arr)
                 return
             }
-            if start > n { return }
-            for i in start ... n {
-                var array = arr
-                array.append(i)
-                backtracking(i + 1, array)
+            for i in start ...  n - (k - arr.count) + 1 {
+                arr.append(i)
+                backtracking(i + 1)
+                arr.removeLast()
             }
         }
         var combineArray:[Int] = []
-        backtracking(1,combineArray)
+        backtracking(1)
         return ans
     }
 }
