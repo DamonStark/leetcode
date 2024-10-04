@@ -11,11 +11,35 @@ public class TreeNode {
      }
  }
 
+/**
+*   递归解
+*/
 class Solution {
     func maxDepth(_ root: TreeNode?) -> Int {
-        if root == nil {
-            return 0
+        if root == nil {return 0}
+        return 1 + max(maxDepth(root!.left),maxDepth(root!.right))
+    }
+}
+
+/**
+* BFS
+*/
+class Solution {
+    func maxDepth(_ root: TreeNode?) -> Int {
+        var rs = 0
+        if let head = root {
+            var queue:[TreeNode] = []
+            queue.append(head)
+            while !queue.isEmpty {
+                let size = queue.count 
+                for i in 0 ..< size {
+                    let node = queue.removeFirst()
+                    if node.left != nil {queue.append(node.left!)}
+                    if node.right != nil {queue.append(node.right!)}
+                }
+                rs = rs + 1
+            }
         }
-        return max(maxDepth(root!.left), maxDepth(root!.right)) + 1
+        return rs
     }
 }

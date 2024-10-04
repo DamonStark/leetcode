@@ -13,21 +13,48 @@
  *     }
  * }
  */
+
+/**
+*   递归
+*/
 class Solution {
     func minDepth(_ root: TreeNode?) -> Int {
-        guard root != nil else { return 0}
-        var ans = Int.max
+        if root == nil {return 0}        
+        if root!.left == nil && root!.right == nil {return 1}
+        if root!.left == nil || root!.right == nil {
+            return 1 + minDepth(root!.left == nil ? root!.right : root!.left)
+        }
+        return 1 + min(minDepth(root!.left),minDepth(root!.right))
+    }
+}
 
-        func loop(_ root: TreeNode, _ level:Int) {
-            if root.left == nil && root.right == nil {
-                ans = min(ans, level)
-            }else {
-                if root.left != nil { loop(root.left!, level + 1) }
-                if root.right != nil { loop(root.right!, level + 1) }
+/**
+*   BFS
+*/
+class Solution {
+    func minDepth(_ root: TreeNode?) -> Int {
+        var level = 0
+        if root != nil {
+            var queue: [TreeNode] = []
+            queue.append(root!)
+            while !queue.isEmpty {
+                level = level + 1
+
+                let size = queue.count
+                for i in 0 ..< size {
+                    let node = queue.removeFirst()
+                    if node.left != nil {
+                        queue.append(node.left!)
+                    }
+                    if node.right != nil {
+                        queue.append(node.right!)
+                    }
+                    if node.left == nil && node.right == nil {
+                        return level
+                    }
+                }
             }
         }
-
-        loop(root!, 1)
-        return ans
+        return level
     }
 }
