@@ -11,6 +11,9 @@ public class TreeNode {
      }
  }
 
+/**
+*   递归解
+*/
 class Solution {
     func isSymmetric(_ root: TreeNode?) -> Bool {
         guard root != nil else {
@@ -28,4 +31,26 @@ class Solution {
         }
         return (p!.val == q!.val) && check(p!.left, q!.right) && check(p!.right, q!.left)
     }
+}
+
+/**
+*   迭代解
+*/
+func isSymmetric(_ root: TreeNode?) -> Bool {
+    if let head = root {
+        var queue: [TreeNode?] = []
+        queue.append(head.left)
+        queue.append(head.right)
+        while !queue.isEmpty {
+            let left = queue.removeFirst()
+            let right = queue.removeFirst()
+            if left == nil && right == nil { continue }
+            if left == nil || right == nil || left!.val != right!.val { return false }
+            queue.append(left!.left)
+            queue.append(right!.right)
+            queue.append(left!.right)
+            queue.append(right!.left)
+        }
+    }
+    return true
 }
